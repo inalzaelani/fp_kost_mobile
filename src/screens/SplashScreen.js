@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet, Text } from 'react-native';
+import Lottie from 'lottie-react-native'
 
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
@@ -10,8 +11,10 @@ const SplashScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-    
-   
+    <Lottie 
+      source={require('../../assets/75123-homeicon.json')}
+      styles={{width : 200, height: 200}}
+    />
       <Text>SplashScreen</Text>
     </View>
   );

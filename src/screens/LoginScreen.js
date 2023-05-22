@@ -1,45 +1,65 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Alert, StyleSheet, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, Alert, StyleSheet, Text, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import Lottie from 'lottie-react-native'
 
 const LoginScreen = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState(''); 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
 
   const handleLogin = () => {
+    // const userData = {
+    //   email: email,
+    //   password: password
+    // };
+
+    // setIsLoading(true);
+
     // axios
-    //   .get('http://localhost:3000/users')
+    //   .post('http://kost-dev-env.us-east-1.elasticbeanstalk.com/auth/login', userData)
     //   .then((response) => {
     //     const data = response.data;
-    //     const user = data.users.find(
-    //       (user) => user.username === username && user.password === password
-    //     );
-    //     if (user) {
-    //       // Successful login
+    //     if (data.success) {
+    //       navigation.navigate('Home');
     //       Alert.alert('Login Successful');
     //     } else {
-    //       // Invalid credentials
-    //       Alert.alert('Invalid username or password');
+    //       Alert.alert('Invalid email or password');
+    //       console.log(data);
     //     }
     //   })
     //   .catch((error) => {
     //     console.error('Error:', error);
+    //     if (error.response && error.response.data) {
+    //       console.log('Response data:', error.response.data);
+    //       Alert.alert('An error occurred during login: ' + error.response.data.message);
+    //     } else {
+    //       Alert.alert('An error occurred during login');
+    //     }
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
     //   });
 
-    navigation.navigate('Home')
-
-    
+    navigation.navigate('Home');
   };
 
   return (
     <View style={styles.container}>
-      <TextInput
+      <View>
+        <Lottie 
+        source={require('../../assets/75123-homeicon.json')}
+        />
+      </View>
+
+      <View>
+          <TextInput
         style={styles.input}
-        placeholder="Username"
-        onChangeText={setUsername}
-        value={username}
+        placeholder="Email"
+        onChangeText={setEmail}
+        value={email}
       />
       <TextInput
         style={styles.input}
@@ -48,9 +68,15 @@ const LoginScreen = () => {
         onChangeText={setPassword}
         value={password}
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
+        {isLoading ? (
+          <ActivityIndicator size="small" color="#FFFFFF" />
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
       </TouchableOpacity>
+      </View>
+  
     </View>
   );
 };
@@ -72,6 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2BED1',
     paddingVertical: 12,
     borderRadius: 30,
+    alignItems: 'center',
   },
   buttonText: {
     color: '#FFFFFF',
