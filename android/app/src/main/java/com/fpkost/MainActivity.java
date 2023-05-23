@@ -4,7 +4,7 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
-
+import com.airbnb.android.react.lottie.LottiePackage;
 import android.os.Bundle;
 
 public class MainActivity extends ReactActivity {
@@ -18,6 +18,14 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "fpkost";
   }
+
+  // @Override
+  // protected List<ReactPackage> getPackages() {
+  // @SuppressWarnings("UnnecessaryLocalVariable")
+  // List<ReactPackage> packages = new PackageList(this).getPackages();
+  // packages.add(new LottiePackage());
+  // return packages;
+  // }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

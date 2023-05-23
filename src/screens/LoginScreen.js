@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Alert, StyleSheet, Text, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-import Lottie from 'lottie-react-native'
+import LottieView from 'lottie-react-native'; 
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword,setShowPassword] = useState(false)
   const navigation = useNavigation();
 
   const handleLogin = () => {
@@ -46,37 +48,49 @@ const LoginScreen = () => {
     navigation.navigate('Home');
   };
 
+   const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <View style={styles.container}>
-      <View>
-        <Lottie 
-        source={require('../../assets/75123-homeicon.json')}
+      <View style={styles.animationContainer}>
+        <LottieView
+          source={require('../../assets/112563-home.json')}
+          style={styles.animation}
+          autoPlay
+          loop
         />
       </View>
 
       <View>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          onChangeText={setEmail}
+          value={email}
+        />
+        <View style={styles.passwordContainer}>
           <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={setEmail}
-        value={email}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        onChangeText={setPassword}
-        value={password}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
-        {isLoading ? (
-          <ActivityIndicator size="small" color="#FFFFFF" />
-        ) : (
-          <Text style={styles.buttonText}>Login</Text>
-        )}
-      </TouchableOpacity>
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry={!showPassword}
+            onChangeText={setPassword}
+            value={password}
+          />
+          <TouchableOpacity onPress={togglePasswordVisibility} style={styles.visibilityButton}>
+            <Icon name={showPassword ? 'eye-slash' : 'eye'} size={20} color="#888" />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
+          {isLoading ? (
+            <ActivityIndicator size="small" color="#FFFFFF" />
+          ) : (
+            <Text style={styles.buttonText}>Login</Text>
+          )}
+        </TouchableOpacity>
       </View>
-  
+      <Text style={styles.bottomText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, repellendus?!</Text>
     </View>
   );
 };
@@ -85,17 +99,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
+    padding: 20,
+    backgroundColor: '#F9F7F7',
+  },
+  animationContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  animation: {
+    width: 200,
+    height: 200,
   },
   input: {
     marginBottom: 12,
     padding: 10,
+    width: 380,
+    paddingVertical: 16,
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 4,
   },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  visibilityButton: {
+    position: 'absolute',
+    right: 10,
+    height: '100%',
+    justifyContent: 'center',
+  },
   button: {
-    backgroundColor: '#F2BED1',
+    backgroundColor: '#3F72AF',
     paddingVertical: 12,
     borderRadius: 30,
     alignItems: 'center',
@@ -104,6 +140,12 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  bottomText: {
+    marginTop: 20,
+    textAlign: 'center',
+    fontSize: 10,
+    color: '#888',
   },
 });
 
